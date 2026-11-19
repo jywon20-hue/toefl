@@ -174,7 +174,79 @@ let S = {known:{}, wrong:{}, hard:{}, blurW:false, blurK:false, blurS:false,
          settings:{accent:"en-US", rate:0.9, auto:true, fill:"type", qn:20, en:30, prate:0.4, prep:3, pko:true, pet:true, pex:"both"}};
 try { const s = JSON.parse(localStorage.getItem(KEY)); if (s) S = Object.assign(S, s, {settings:Object.assign(S.settings, s.settings||{})}); } catch(e){}
 function saveLocal(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
-function save(){ S.t = Date.now(); saveLocal(); cloudPush(); }
+function save(){ S.t = Date.now(); saveLocal(); cloudPush(); gsyncPush(); }
+
+/* ===== 구글 드라이브 자동 백업 (독립 앱 전용, Apps Script 웹 앱 사용) ===== */
+const GKEY = "toefl-gsync";
+let GS = {url:"", key:"", status:"off", last:0, busy:false, dirty:false, timer:null};
+try { Object.assign(GS, JSON.parse(localStorage.getItem(GKEY)) || {}); } catch(e){}
+GS.status = GS.url ? "wait" : "off";
+function gsSave(){ try { localStorage.setItem(GKEY, JSON.stringify({url:GS.url, key:GS.key, last:GS.last})); } catch(e){} }
+function gsNewKey(){ const a = new Uint8Array(12); crypto.getRandomValues(a); return Array.from(a, b => b.toString(16).padStart(2,"0")).join(""); }
+async function gsCall(body){
+  const u = GS.url + (GS.url.includes("?") ? "&" : "?") + "key=" + encodeURIComponent(GS.key);
+  const opt = body ? {method:"POST", body, headers:{"Content-Type":"text/plain;charset=utf-8"}, redirect:"follow"} : {redirect:"follow"};
+  const r = await Promise.race([fetch(u, opt), new Promise((_, rej) => setTimeout(() => rej(new Error("timeout")), 15000))]);
+  const j = await r.json();
+  if (!j.ok) throw new Error(j.error || "fail");
+  return j;
+}
+function gsyncPush(){
+  if (!GS.url || GS.status === "keyerror") return;
+  clearTimeout(GS.timer);
+  GS.timer = setTimeout(async function run(){
+    if (GS.busy){ GS.dirty = true; return; }
+    GS.busy = true; GS.dirty = false;
+    try { await gsCall(JSON.stringify(payload())); GS.status = "ok"; GS.last = Date.now(); gsSave(); }
+    catch(e){ GS.status = (e.message === "key") ? "keyerror" : "error"; }
+    GS.busy = false;
+    if (GS.dirty) run();
+    if (V.view === "settings") render();
+  }, 1500);
+}
+function applyRemote(r){
+  SYNC_KEYS.forEach(k => { if (r[k] !== undefined) S[k] = JSON.parse(JSON.stringify(r[k])); });
+  S.settings = Object.assign({accent:"en-US", rate:0.9, auto:true, fill:"type", qn:20, en:30, prate:0.4, prep:3, pko:true, pet:true, pex:"both"}, S.settings||{});
+  ["known","wrong","hard"].forEach(k => { if (!S[k] || typeof S[k] !== "object") S[k] = {}; });
+  migrateS(); saveLocal();
+}
+async function gsyncInit(){
+  if (!GS.url) return;
+  try {
+    const j = await gsCall(null);
+    const r = j.data;
+    if (r && (r.t || 0) > (S.t || 0)){ applyRemote(r); GS.status = "ok"; GS.last = Date.now(); gsSave(); if (V.view !== "quiz" && V.view !== "player") render(); }
+    else { GS.status = "ok"; if (!r || (r.t || 0) < (S.t || 0)) gsyncPush(); }
+  } catch(e){ GS.status = (e.message === "key") ? "keyerror" : "error"; }
+  if (V.view === "settings") render();
+}
+function gsScript(){
+  return `// TOEFL 단어장 자동 백업 — 이 코드를 그대로 붙여 넣으세요
+const KEY = "${GS.key}";
+const NAME = "toefl-progress.json";
+const FOLDER = "TOEFL 단어장 백업";
+function doGet(e){ return handle(e, null); }
+function doPost(e){ return handle(e, e.postData ? e.postData.contents : null); }
+function handle(e, body){
+  if (!e.parameter || e.parameter.key !== KEY) return out({ok:false, error:"key"});
+  const it = DriveApp.getFoldersByName(FOLDER);
+  const folder = it.hasNext() ? it.next() : DriveApp.createFolder(FOLDER);
+  const fs = folder.getFilesByName(NAME);
+  let f = fs.hasNext() ? fs.next() : null;
+  if (body){
+    JSON.parse(body);
+    if (f) f.setContent(body); else f = folder.createFile(NAME, body, "application/json");
+    const day = Utilities.formatDate(new Date(), "Asia/Seoul", "yyyyMMdd");
+    const dn = "toefl-" + day + ".json", ds = folder.getFilesByName(dn);
+    if (ds.hasNext()) ds.next().setContent(body); else folder.createFile(dn, body, "application/json");
+    const old = folder.getFiles(), limit = new Date(Date.now() - 30*864e5);
+    while (old.hasNext()){ const x = old.next(); if (x.getName() !== NAME && x.getDateCreated() < limit) x.setTrashed(true); }
+    return out({ok:true});
+  }
+  return out({ok:true, data: f ? JSON.parse(f.getBlob().getDataAsString()) : null});
+}
+function out(o){ return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }`;
+}
 
 /* ===== 계정 저장 (기기·브라우저가 바뀌어도 유지) ===== */
 const CLOUD = {ref:null, status:"wait", busy:false, dirty:false, timer:null};
@@ -574,11 +646,37 @@ function wrongView(){
   return shell("오답노트", h);
 }
 
+function gsPanel(){
+  const t = GS.last ? new Date(GS.last) : null;
+  const ts = t ? `${t.getMonth()+1}/${t.getDate()} ${String(t.getHours()).padStart(2,"0")}:${String(t.getMinutes()).padStart(2,"0")}` : "";
+  const st = {ok:["good","자동 백업 중", ts ? `마지막 저장 ${ts}` : "연결됨"], wait:["","연결 확인 중",""], error:["bad","연결 실패","인터넷 연결을 확인해 주세요. 계속 실패하면 웹 앱 주소가 맞는지 확인해 주세요."], keyerror:["bad","키 불일치","스크립트 안의 KEY와 앱의 키가 달라요. 아래 코드를 다시 복사해 스크립트에 붙여 넣고 새로 배포해 주세요."], off:["","꺼짐",""]}[GS.status] || ["","",""];
+  if (GS.url && !V.gsEdit) return `<div class="card set"><p class="label" style="margin:0">구글 드라이브 자동 백업</p>
+    <div><span class="pill ${st[0]}">${st[1]}</span> <span class="small muted">${esc(st[2])}</span></div>
+    <div class="small muted">기록이 바뀔 때마다 내 구글 드라이브의 'TOEFL 단어장 백업' 폴더에 자동 저장돼요. 날짜별 사본도 30일치 남아요. 다른 폰에서도 같은 주소를 연결하면 기록이 이어져요.</div>
+    <div class="btns"><button class="btn" data-act="gsNow">지금 동기화</button><button class="btn" data-act="gsEdit">연결 설정</button></div></div>`;
+  if (!GS.key){ GS.key = gsNewKey(); gsSave(); }
+  return `<div class="card set"><p class="label" style="margin:0">구글 드라이브 자동 백업 연결</p>
+    <div class="small">PC에서 한 번만 하면 돼요.</div>
+    <ol class="small" style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px">
+      <li>PC에서 <b>script.google.com</b> 접속 → <b>새 프로젝트</b></li>
+      <li>원래 있던 코드를 지우고, 아래 <b>코드 복사</b>로 복사한 내용을 붙여 넣고 저장</li>
+      <li>오른쪽 위 <b>배포 → 새 배포</b> → 유형 선택(톱니바퀴)에서 <b>웹 앱</b></li>
+      <li>실행 사용자: <b>나</b>, 액세스 권한: <b>모든 사용자</b> → <b>배포</b></li>
+      <li>권한 승인 창에서 내 계정 선택 → '확인되지 않은 앱' 경고가 나오면 <b>고급 → (이동)</b> → <b>허용</b></li>
+      <li>나오는 <b>웹 앱 URL</b>(https://script.google.com/macros/s/…/exec)을 복사해서 아래 칸에 붙여 넣기</li>
+    </ol>
+    <button class="btn" data-act="gsCopy">코드 복사</button>
+    ${V.gsShow ? `<textarea id="gscode" class="ans" style="font-size:11px;height:120px" readonly>${esc(gsScript())}</textarea>` : ""}
+    <input id="gsurl" class="ans" style="font-size:14px" placeholder="웹 앱 URL 붙여 넣기" value="${esc(GS.url)}">
+    <div class="btns">${GS.url?`<button class="btn" data-act="gsOff">연결 끊기</button>`:""}<button class="btn primary" data-act="gsConnect">연결하기</button></div>
+    <div class="small muted">코드에 들어 있는 키는 이 앱 전용 비밀번호예요. 다른 사람에게 공유하지 마세요.</div></div>`;
+}
 function settingsView(){
   const st = S.settings, ts = ttsStatus();
   const seg = (act, cur, opts) => `<div class="seg">${opts.map(([v,l])=>`<button class="${String(cur)===String(v)?"on":""}" data-act="${act}" data-k="${v}">${l}</button>`).join("")}</div>`;
   const cs = {cloud:["good","계정에 저장 중","체크·진도·오답이 Claude 계정에 저장돼요. 폰을 바꾸거나 다른 브라우저로 열어도 그대로예요."], wait:["","확인 중","저장 공간을 연결하고 있어요."], offline:["bad","연결 안 됨","지금은 계정 저장소에 연결되지 않아 이 기기에만 저장돼요. 인터넷 연결 후 다시 열어주세요."], error:["bad","저장 실패","계정에 저장하지 못했어요. 앱을 다시 열어주세요."], local: STANDALONE ? ["good","이 폰에 저장 중","기록은 이 폰의 크롬에 저장돼요. 크롬의 인터넷 사용 기록을 지우면 함께 지워질 수 있으니, 가끔 아래 '기록 내보내기'로 백업해 두세요."] : ["bad","이 기기에만 저장","Claude에 로그인한 상태로 열면 계정에 저장돼요. 지금은 브라우저 기록이 지워지면 함께 사라질 수 있어요."]}[CLOUD.status] || ["","",""];
   const h = `<div class="card set"><p class="label" style="margin:0">학습 기록 저장</p><div><span class="pill ${cs[0]}">${cs[1]}</span></div><div class="small muted">${cs[2]}</div></div>
+  ${STANDALONE ? gsPanel() : ""}
   <div class="card set"><p class="label" style="margin:0">음성 점검</p>
    <div><span class="pill ${ts.ok?"good":"bad"}">${ts.ok?"사용 가능":"문제 있음"}</span> <span class="small">${esc(ts.msg)}</span></div>
    <button class="btn primary" data-act="say" data-t="Hello. This is a listening test.">소리 테스트</button>
@@ -653,6 +751,18 @@ const ACT = {
   setAccent: d => { S.settings.accent=d.k; save(); render(); speak("accent"); },
   setRate: d => { S.settings.rate=+d.k; save(); render(); },
   setAuto: d => { S.settings.auto = d.k==="true"; save(); render(); },
+  gsCopy: async () => { V.gsShow = true; render(); try { await navigator.clipboard.writeText(gsScript()); toast("코드를 복사했어요. Apps Script에 붙여 넣으세요"); } catch(e){ toast("아래 칸의 코드를 전체 선택해 복사해 주세요"); } },
+  gsConnect: async () => {
+    const u = (document.getElementById("gsurl")?.value || "").trim();
+    if (!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec/.test(u)){ toast("주소는 https://script.google.com/macros/s/…/exec 형태여야 해요"); return; }
+    GS.url = u; GS.status = "wait"; gsSave(); V.gsEdit = false; render(); toast("연결하는 중이에요…");
+    await gsyncInit();
+    toast(GS.status === "ok" ? "연결됐어요. 이제 자동으로 백업돼요" : (GS.status === "keyerror" ? "키가 맞지 않아요. 코드를 다시 복사해 붙여 넣고 새로 배포해 주세요" : "연결하지 못했어요. 주소와 배포 설정을 확인해 주세요"));
+    render();
+  },
+  gsNow: async () => { GS.status = "wait"; render(); await gsyncInit(); if (GS.status === "ok"){ gsyncPush(); toast("동기화했어요"); } render(); },
+  gsEdit: () => { V.gsEdit = true; render(); },
+  gsOff: () => { GS.url = ""; GS.status = "off"; gsSave(); V.gsEdit = false; render(); toast("자동 백업 연결을 끊었어요"); },
   exportData: async () => {
     const code = "TOEFLV1:" + btoa(unescape(encodeURIComponent(JSON.stringify(payload()))));
     V.exportCode = code; render();
@@ -773,6 +883,7 @@ function init(data){
   if (migrateS()) saveLocal();
   go("home");
   cloudInit();
+  if (STANDALONE) gsyncInit();
 }
 render();
 (window.INLINE_DATA ? Promise.resolve(window.INLINE_DATA) : fetch("words.json").then(r => { if (!r.ok) throw 0; return r.json(); })).then(init).catch(() => go("error"));
