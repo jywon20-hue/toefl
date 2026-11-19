@@ -45,7 +45,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 header{display:flex;align-items:center;gap:10px;padding:calc(12px + env(safe-area-inset-top)) 16px 12px;background:var(--surface);border-bottom:1px solid var(--line)}
 header h1{font-size:17px;font-weight:600;margin:0;flex:1;text-wrap:balance}
 .back{border:0;background:none;padding:6px;margin-left:-6px;display:flex}
-main{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:14px}
+main{flex:1;overflow-y:auto;padding:12px 16px;display:flex;flex-direction:column;gap:10px}
 nav.tabs{display:flex;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
 nav.tabs button{flex:1;border:0;background:none;padding:10px 0 12px;font-size:13px;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px}
 nav.tabs button.on{color:var(--accent);font-weight:600}
@@ -54,11 +54,12 @@ nav.tabs button.on{color:var(--accent);font-weight:600}
 .small{font-size:13px}
 .row{display:flex;align-items:center;gap:10px}
 .grow{flex:1;min-width:0}
-.btn{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 14px;font-weight:500}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 12px;font-weight:500;font-size:15px}
+.btn.sm{padding:6px 10px;font-size:14px}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
 :root[data-theme="dark"] .btn.primary{color:#0e1322}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.primary{color:#0e1322}}
-.btn.block{width:100%;padding:13px}
+.btn.block{width:100%;padding:11px}
 .btns{display:flex;gap:8px;flex-wrap:wrap}
 .btns .btn{flex:1}
 .say{border:0;background:var(--accent-soft);color:var(--accent);border-radius:999px;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;flex:none}
@@ -75,7 +76,8 @@ nav.tabs button.on{color:var(--accent);font-weight:600}
 .list .w{font-family:var(--display);font-weight:600;font-size:17px}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--line);flex:none}
 .dot.on{background:var(--good)}
-.head{font-family:var(--display);font-size:38px;font-weight:700;line-height:1.1;margin:0;word-break:break-word}
+.head{font-family:var(--display);font-size:var(--headsize,34px);font-weight:700;line-height:1.15;margin:0;hyphens:none}
+.nw{white-space:nowrap}
 .pos{font-style:italic;color:var(--muted);font-family:var(--display)}
 .ko{font-size:19px;font-weight:600;margin-top:6px}
 .label{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--muted);margin:0 0 8px}
@@ -92,12 +94,12 @@ mark{background:linear-gradient(transparent 45%, var(--mark) 45%);color:inherit;
 .known.on{background:var(--good-soft);border-color:var(--good);color:var(--good)}
 .qtop{display:flex;justify-content:space-between;align-items:center}
 .qtype{font-size:13px;font-weight:600;color:var(--accent)}
-.prompt-word{font-family:var(--display);font-size:34px;font-weight:700;line-height:1.15;word-break:break-word}
+.prompt-word{font-family:var(--display);font-size:var(--headsize,34px);font-weight:700;line-height:1.15;hyphens:none}
 .prompt-ko{font-size:22px;font-weight:600}
 .blank{display:inline-block;min-width:90px;border-bottom:2px solid var(--accent);margin:0 2px}
 input.ans{width:100%;font:inherit;font-size:18px;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.opts .btn{font-family:var(--display);font-size:17px;padding:14px 8px}
+.opts .btn{font-family:var(--display);font-size:17px;padding:12px 8px}
 .opts .btn.right{background:var(--good-soft);border-color:var(--good);color:var(--good)}
 .opts .btn.wrong{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
 .fb{border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px}
@@ -114,15 +116,15 @@ input.ans{width:100%;font:inherit;font-size:18px;padding:12px 14px;border-radius
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .seg button.on{color:#0e1322}}
 .set{display:flex;flex-direction:column;gap:8px}
 .types{display:flex;flex-direction:column;gap:8px}
-.types .btn{text-align:left;display:flex;flex-direction:column;gap:2px;padding:14px}
+.types .btn{text-align:left;display:flex;flex-direction:column;gap:2px;padding:12px}
 .types .btn span{font-size:13px;color:var(--muted);font-weight:400}
-.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:10px;font-size:14px;max-width:90%;z-index:9}
+.toast{position:fixed;left:50%;bottom:160px;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:10px;font-size:14px;max-width:90%;z-index:9}
 .tap{cursor:pointer;user-select:none;-webkit-user-select:none;border-radius:6px;transition:filter .15s}
 .cover{display:flex;align-items:center;justify-content:center;width:100%;min-height:34px;background:var(--line);color:var(--muted);border-radius:8px;font-family:var(--body);font-size:14px;font-weight:500;line-height:1.2}
 .cover.big{min-height:46px}
 .cover.tall{min-height:72px}
-.sense{display:flex;flex-direction:column;gap:12px}
-.sense .ko{font-size:18px}
+.sense{display:flex;flex-direction:column;gap:8px;padding:12px 14px}
+.sense .ko{font-size:17px;font-weight:600;margin:0}
 .num{width:22px;height:22px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:13px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex:none}
 .ipa{color:var(--muted);font-size:15px;margin-top:4px}
 .penbtn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;display:flex;align-items:center;gap:5px;font-size:14px;font-weight:600;color:var(--accent)}
@@ -139,7 +141,7 @@ body.pad-on main{padding-bottom:calc(46vh + 16px)}
 body.pad-on nav.tabs{visibility:hidden}
 .listen{display:flex;align-items:center;gap:10px;justify-content:center;color:var(--accent);font-weight:600}
 .player{text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;padding:28px 16px}
-.player .head{font-size:42px}
+.player .head{font-size:var(--headsize,34px)}
 .pmean{font-size:19px;font-weight:600;margin-top:10px;display:flex;flex-direction:column;gap:4px}
 .speaking{background:linear-gradient(transparent 60%, var(--mark) 60%);border-radius:4px}
 .pctl{display:grid;grid-template-columns:1fr 1.6fr 1fr;gap:8px}
@@ -157,6 +159,29 @@ body.pad-on nav.tabs{visibility:hidden}
 .pt{white-space:pre-line;line-height:1.6}
 .pex{text-align:left;width:100%;display:flex;flex-direction:column;gap:4px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
 .pex .sent{font-size:17px}
+.headcard{padding:12px 14px}
+.meta{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;margin-top:4px}
+.meta .ipa{margin:0;font-size:14px}
+.meta .der{margin:0;font-size:13px}
+.pager .btn{flex:0 0 auto;min-width:84px}
+.pager{justify-content:space-between}
+.synrow{display:flex;gap:6px 8px;align-items:baseline;flex-wrap:wrap}
+.synrow .label{margin:0}
+.synrow .chip{padding:2px 8px;font-size:14px}
+.exrow{display:flex;gap:8px;align-items:flex-start}
+.sense .sent{font-size:16px;line-height:1.5}
+.sense .trend{font-size:14px}
+.cbody{display:flex;flex-direction:column;gap:10px;position:relative}
+.cbody.clip{overflow:hidden}
+.cbody.clip::after{content:"";position:absolute;left:0;right:0;bottom:0;height:44px;background:linear-gradient(transparent,var(--paper));pointer-events:none}
+.morebtn{border:0;background:none;color:var(--accent);font-weight:600;font-size:14px;padding:2px 0;align-self:center}
+.actbar{position:sticky;bottom:-12px;margin:auto -16px -12px;padding:8px 16px 12px;background:var(--paper);display:flex;gap:8px;border-top:1px solid var(--line)}
+.actbar .btn{flex:1;padding:10px 8px;font-size:15px}
+.actbar .hardbtn{width:auto}
+.actbar .btn.nav{flex:0 0 auto;padding:10px 10px;font-size:14px;color:var(--muted)}
+.actbar .btn.nav:disabled{opacity:.4}
+.actbar .btn{white-space:nowrap}
+.sel{flex:1;font:inherit;font-size:15px;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
 .empty{text-align:center;padding:30px 10px}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -361,16 +386,11 @@ function shell(title, body, backAct, right){
 }
 
 function homeView(){
-  const ids = Object.keys(WORDS), known = ids.filter(id=>S.known[id]).length;
-  const wrongN = Object.keys(S.wrong).filter(id=>WORDS[id]).length;
-  let h = `<div class="card"><div class="row"><div class="grow"><div class="small muted">전체 진도</div><div style="font-size:22px;font-weight:700">${known} <span class="muted small" style="font-weight:500">/ ${ids.length}단어 외움</span></div></div><span class="pill bad">오답 ${wrongN}</span></div><div class="bar" style="margin-top:10px"><i style="width:${ids.length?known/ids.length*100:0}%"></i></div></div>`;
-  const hn = hardList().length;
-  h += `<div class="card hardcard"><div class="row"><div class="grow"><h2 style="font-size:16px;margin:0">★ 어려운 단어</h2><div class="small muted">${hn ? `${hn}단어 · 어원·예문과 함께 모아 들을 수 있어요` : "듣기나 단어 카드에서 '잘 안 외워져요'를 누르면 여기에 모여요"}</div></div></div>
+  const wrongN = Object.keys(S.wrong).filter(id=>WORDS[id]).length, hn = hardList().length;
+  let h = `<div class="card hardcard"><div class="row"><div class="grow"><h2 style="font-size:16px;margin:0">★ 어려운 단어</h2><div class="small muted">${hn ? `${hn}단어 · 어원·예문과 함께 모아 들을 수 있어요` : "듣기나 단어 카드에서 '어려워요'를 누르면 여기에 모여요"}</div></div>${wrongN?`<span class="pill bad">오답 ${wrongN}</span>`:""}</div>
     ${hn ? `<div class="btns" style="margin-top:12px"><button class="btn" data-act="hardList">목록 보기</button><button class="btn primary" data-act="hardPlay">어원·예문과 함께 듣기</button></div>` : ""}</div>`;
   DATA.forEach(c => {
-    const k = c.words.filter(x=>S.known[x.id]).length;
-    h += `<div class="card chap"><div class="row"><div class="grow"><h2>${esc(c.title)}</h2><div class="small muted">${c.words.length}단어 · ${k}개 외움</div></div></div>
-    <div class="bar" style="margin:10px 0 12px"><i style="width:${k/c.words.length*100}%"></i></div>
+    h += `<div class="card chap"><div class="row" style="margin-bottom:10px"><h2 class="grow" style="margin:0">${esc(c.title)}</h2><span class="small muted">${c.words.length}단어</span></div>
     <div class="btns"><button class="btn" data-act="openCh" data-ch="${c.ch}">단어 학습</button><button class="btn primary" data-act="quizSetup" data-ch="${c.ch}">퀴즈</button></div></div>`;
   });
   return shell("TOEFL 단어장", h);
@@ -379,39 +399,65 @@ function homeView(){
 function chapterView(){
   const c = chap(V.ch);
   const h = `<button class="btn block listen" data-act="playerOpen">${ICON.say}<span>이 Day 전체 듣기 <span class="small muted">· 단어와 뜻을 처음부터 끝까지</span></span></button>
-  <div class="card list">${c.words.map((x,i)=>`<button data-act="openCard" data-i="${i}"><span class="dot ${S.known[x.id]?"on":""}"></span><span class="grow"><span class="w">${esc(x.w)}</span>${S.hard[x.id]?' <span class="star">★</span>':""} <span class="pos small">${posOf(x)}</span><br><span class="small muted">${esc(koAll(x))}</span></span>${S.wrong[x.id]?`<span class="pill bad">${S.wrong[x.id]}</span>`:""}</button>`).join("")}</div>
+  <div class="card list">${c.words.map((x,i)=>`<button data-act="openCard" data-i="${i}"><span class="grow"><span class="w">${esc(x.w)}</span>${S.hard[x.id]?' <span class="star">★</span>':""} <span class="pos small">${posOf(x)}</span><br><span class="small muted">${esc(koAll(x))}</span></span>${S.wrong[x.id]?`<span class="pill bad">${S.wrong[x.id]}</span>`:""}</button>`).join("")}</div>
   <button class="btn primary block" data-act="quizSetup" data-ch="${c.ch}">이 Day 퀴즈 풀기</button>`;
   return shell(esc(c.title), h, "home");
 }
 
+const nw = w => w.split(/\s+/).map(t => `<span class="nw">${esc(t)}</span>`).join(" ");
 function cardView(){
   const c = chap(V.ch), x = c.words[V.i], multi = x.senses.length > 1;
   const senseHtml = x.senses.map((s,k)=>{
     const ex = S.blurW ? hl(s.ex, x.w).replace(/<mark>.*?<\/mark>/g,'<span class="blank"></span>') : hl(s.ex, x.w);
     return `<div class="card sense">
-      <div class="row" style="align-items:baseline">${multi?`<span class="num">${k+1}</span>`:""}<span class="pos">${POS[s.pos]||s.pos}</span>
-        <span class="ko grow tap" style="margin:0" data-act="blurK" role="button" tabindex="0">${S.blurK?'<span class="cover">눌러서 뜻 보기</span>':esc(s.ko)}</span></div>
-      ${s.syn.length?`<div><div class="row" style="margin-bottom:6px"><p class="label grow" style="margin:0">동의어</p><button class="toggle" data-act="blurS">${S.blurS?"보기":"가리기"}</button></div>
-        ${S.blurS?`<div class="tap" data-act="blurS" role="button" tabindex="0"><span class="cover tall">눌러서 동의어 보기</span></div>`:`<div class="chips">${s.syn.map(y=>`<button class="chip" data-act="say" data-t="${esc(y)}">${esc(y)}</button>`).join("")}</div>`}</div>`:""}
-      <div><div class="row" style="align-items:flex-start"><p class="label grow" style="margin:0">예문</p>${sayBtn(s.ex,1)}</div>
-        <div class="sent" style="margin-top:4px">${ex}</div>
-        ${s.exko ? (V.showKo ? `<div class="muted small" style="margin-top:4px">${esc(s.exko)}</div>` : "") + `<button class="toggle" data-act="toggleKo">${V.showKo?"해석 숨기기":"해석 보기"}</button>` : ""}</div>
-      ${s.pt?`<div class="trend"><p class="label" style="margin:0 0 4px">최신 출제 포인트</p><div class="pt">${esc(s.pt)}</div></div>`:""}
+      <div class="row" style="align-items:baseline;gap:8px">${multi?`<span class="num">${k+1}</span>`:""}<span class="pos">${POS[s.pos]||s.pos}</span>
+        <span class="ko grow tap" data-act="blurK" role="button" tabindex="0">${S.blurK?'<span class="cover">눌러서 뜻 보기</span>':esc(s.ko)}</span></div>
+      ${s.syn.length?`<div class="synrow"><span class="label">동의어</span>${S.blurS?`<span class="tap grow" data-act="blurS" role="button" tabindex="0"><span class="cover">눌러서 동의어 보기</span></span>`:`<span class="chips grow">${s.syn.map(y=>`<button class="chip" data-act="say" data-t="${esc(y)}">${esc(y)}</button>`).join("")}</span><button class="toggle" data-act="blurS">가리기</button>`}</div>`:""}
+      <div class="exrow"><div class="grow"><div class="sent">${ex}</div>
+        ${s.exko && V.showKo ? `<div class="muted small" style="margin-top:2px">${esc(s.exko)}</div>` : ""}
+        ${s.exko ? `<button class="toggle" data-act="toggleKo">${V.showKo?"해석 숨기기":"해석 보기"}</button>` : ""}</div>${sayBtn(s.ex,1)}</div>
+      ${s.pt?`<div class="trend"><p class="label" style="margin:0 0 2px">최신 출제 포인트</p><div class="pt">${esc(s.pt)}</div></div>`:""}
     </div>`;
   }).join("");
-  const h = `<div class="pager"><button class="btn" data-act="prev" ${V.i===0?"disabled":""}>이전</button><span class="muted small" style="align-self:center">${V.i+1} / ${c.words.length}</span><button class="btn" data-act="next" ${V.i===c.words.length-1?"disabled":""}>다음</button></div>
-  <div class="card">
-    <div class="row" style="align-items:flex-start"><div class="grow tap" data-act="blurW" role="button" tabindex="0" aria-label="단어 가리기/보기">${S.blurW?'<span class="cover big">눌러서 단어 보기</span>':`<p class="head">${esc(x.w)}</p>${x.ipa?`<div class="ipa">[${esc(x.ipa)}]</div>`:""}${x.der?`<div class="der"><span class="label" style="margin:0">파생어</span> ${x.der.split(/\n/).map(esc).join(" · ")}</div>`:""}`}</div>${sayBtn(x.w)}</div>
-    <div class="small muted" style="margin-top:8px">단어·뜻·동의어를 누르면 가려지고, 다시 누르면 보여요.</div></div>
-  ${S.hard[x.id] && x.et ? `<div class="card set"><div class="row"><p class="label grow" style="margin:0">어원</p>${`<button class="say sm" data-act="sayKo" data-t="${esc(etSpeech(x.et))}" aria-label="어원 듣기">${ICON.say}</button>`}</div><div class="etym">${esc(x.et)}</div></div>` : ""}
+  const h = `<div class="card headcard">
+    <div class="row" style="align-items:flex-start"><div class="grow tap" data-act="blurW" role="button" tabindex="0" aria-label="단어 가리기/보기">${S.blurW?'<span class="cover big">눌러서 단어 보기</span>':`<p class="head">${nw(x.w)}</p><div class="meta">${x.ipa?`<span class="ipa">[${esc(x.ipa)}]</span>`:""}${x.der?`<span class="der"><span class="label">파생어</span> ${x.der.split(/\n/).map(esc).join(" · ")}</span>`:""}</div>`}</div>${sayBtn(x.w)}</div></div>
+  <div id="cbody" class="cbody ${V.cexp?"open":""}">
+  ${S.hard[x.id] && x.et ? `<div class="card set" style="padding:12px"><div class="row"><p class="label grow" style="margin:0">어원</p><button class="say sm" data-act="sayKo" data-t="${esc(etSpeech(x.et))}" aria-label="어원 듣기">${ICON.say}</button></div><div class="etym">${esc(x.et)}</div></div>` : ""}
   ${senseHtml}
-  ${hardBtn(x)}
-  <button class="btn block known ${S.known[x.id]?"on":""}" data-act="known">${S.known[x.id]?"외웠어요 ✓":"외웠어요로 표시"}</button>`;
-  return shell(esc(c.title), h, "openCh", penBtn());
+  </div>
+  <button id="cmore" class="morebtn" data-act="cmore" hidden>${V.cexp?"접기 ▴":"더보기 ▾"}</button>
+  <div class="actbar"><button class="btn nav" data-act="prev" aria-label="이전 단어" ${V.i===0?"disabled":""}>‹ 이전</button>${hardBtn(x)}<button class="btn nav" data-act="next" aria-label="다음 단어" ${V.i===c.words.length-1?"disabled":""}>다음 ›</button></div>`;
+  return shell(`${esc(c.title)} <span class="muted small" style="font-weight:500;margin-left:6px">${V.i+1} / ${c.words.length}</span>`, h, "openCh", penBtn());
+}
+function fitCard(){
+  const m = document.getElementById("main"), b = document.getElementById("cbody"), more = document.getElementById("cmore");
+  if (!m || !b || !more) return;
+  b.style.maxHeight = "";
+  if (V.cexp){ more.hidden = false; return; }
+  const cs = getComputedStyle(m), gap = parseFloat(cs.rowGap) || 10;
+  let used = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+  [...m.children].forEach(el => { if (el !== b && el !== more && !el.hidden) used += el.offsetHeight + gap; });
+  const avail = m.clientHeight - used - 30 - gap;
+  if (b.scrollHeight > avail + 6 && avail > 120){ b.style.maxHeight = avail + "px"; b.classList.add("clip"); more.hidden = false; }
+  else { b.classList.remove("clip"); more.hidden = true; }
+}
+/* 가장 긴 단어 하나가 한 줄에 들어가는 글씨 크기를 찾아 전체에 적용 */
+let HEAD_TOKEN = "";
+function fitHead(){
+  if (!HEAD_TOKEN){
+    const toks = new Set(); Object.values(WORDS).forEach(x => x.w.split(/\s+/).forEach(t => toks.add(t)));
+    const cv = document.createElement("canvas").getContext("2d"); cv.font = "700 100px Literata, Georgia, serif";
+    let best = 0; toks.forEach(t => { const w = cv.measureText(t).width; if (w > best){ best = w; HEAD_TOKEN = t; } });
+  }
+  const cv = document.createElement("canvas").getContext("2d"); cv.font = "700 100px Literata, Georgia, serif";
+  const w100 = cv.measureText(HEAD_TOKEN).width || 1;
+  const avail = Math.min(window.innerWidth, 560) - 32 - 26 - 44 - 6; // 화면 여백·카드 여백·발음 버튼
+  const size = Math.max(20, Math.min(40, Math.floor(100 * avail / w100)));
+  document.documentElement.style.setProperty("--headsize", size + "px");
 }
 
 function quizPool(){
-  if (V.qsrc === "exam") return Object.keys(S.known).map(id=>WORDS[id]).filter(Boolean);
+  if (V.qsrc === "exam") return quizPoolExam();
   if (V.qsrc === "wrong") return Object.keys(S.wrong).map(id=>WORDS[id]).filter(Boolean);
   return chap(V.ch).words;
 }
@@ -460,7 +506,7 @@ function quizView(){
   const label = {en2ko:"영어 → 뜻", ko2en:"뜻 → 영어", fill:"빈칸 채우기"}[q.type];
   const [qs, qa, qko] = s.q;
   let prompt = "";
-  if (q.type === "en2ko") prompt = `<div class="row"><div class="grow"><div class="prompt-word">${esc(x.w)}</div><span class="pos">${posOf(x)}</span></div>${sayBtn(x.w)}</div>`;
+  if (q.type === "en2ko") prompt = `<div class="row"><div class="grow"><div class="prompt-word">${nw(x.w)}</div><span class="pos">${posOf(x)}</span></div>${sayBtn(x.w)}</div>`;
   if (q.type === "ko2en") prompt = `<div class="prompt-ko">${esc(s.ko)}</div><span class="pos">${POS[s.pos]||s.pos}</span> <span class="small muted">· ${esc(x.w[0])}로 시작, ${x.w.length}글자</span>`;
   if (q.type === "fill") prompt = `<div class="sent">${esc(qs).replace("____", A ? `<mark>${esc(qa)}</mark>` : '<span class="blank"></span>')}</div>`;
 
@@ -533,7 +579,7 @@ function resultView(){
 
 const hardList = () => Object.keys(S.hard||{}).map(id=>WORDS[id]).filter(Boolean);
 const etSpeech = t => t.replace(/→/g,". 그래서 ").replace(/\+/g,", ").replace(/[()]/g,", ").replace(/,\s*,/g,",").replace(/~/g,"");
-const hardBtn = x => `<button class="btn hardbtn ${S.hard[x.id]?"on":""}" data-act="hard" data-w="${esc(x.id)}">${S.hard[x.id]?"★ 어려운 단어로 체크됨":"☆ 잘 안 외워져요"}</button>`;
+const hardBtn = x => `<button class="btn hardbtn ${S.hard[x.id]?"on":""}" data-act="hard" data-w="${esc(x.id)}">${S.hard[x.id]?"★ 어려워요":"☆ 어려워요"}</button>`;
 /* ===== 전체 듣기 플레이어 ===== */
 const PL = {playing:false, i:0, r:0, part:"", token:0, wake:null};
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -591,7 +637,7 @@ function playerView(){
   const h = `<div class="small muted" style="display:flex;justify-content:space-between"><span>${PL.i+1} / ${words.length}</span><span>${status}</span></div>
   <div class="bar"><i style="width:${(PL.i+(PL.part==="done"?1:0))/words.length*100}%"></i></div>
   <div class="card player">
-    <p class="head ${PL.playing&&PL.part==="en"?"speaking":""}">${esc(x.w)}</p>${x.ipa?`<div class="ipa">[${esc(x.ipa)}]</div>`:""}
+    <p class="head ${PL.playing&&PL.part==="en"?"speaking":""}">${nw(x.w)}</p>${x.ipa?`<div class="ipa">[${esc(x.ipa)}]</div>`:""}
     <div class="pmean ${PL.playing&&PL.part==="ko"?"speaking":""}">${x.senses.map(z=>`<div><span class="pos">${POS[z.pos]||z.pos}</span> ${esc(z.ko)}</div>`).join("")}</div>
     ${hardMode ? x.senses.filter(z=>z.ex).map((z,k)=>`<div class="pex"><div class="sent ${PL.playing&&PL.part==="ex"&&PL.exi===x.senses.indexOf(z)?"speaking":""}">${hl(z.ex, x.w)}</div>${z.exko?`<div class="small muted ${PL.playing&&PL.part==="exko"&&PL.exi===x.senses.indexOf(z)?"speaking":""}">${esc(z.exko)}</div>`:""}</div>`).join("") : ""}
     ${hardMode && x.et ? `<div class="etym ${PL.playing&&PL.part==="et"?"speaking":""}"><p class="label" style="margin:0 0 4px">어원</p>${esc(x.et)}</div>` : ""}
@@ -624,18 +670,26 @@ function hardView(){
 }
 
 function examView(){
-  const n = Object.keys(S.known).filter(id=>WORDS[id]).length;
   const seg = (act, cur, opts) => `<div class="seg">${opts.map(([v,l])=>`<button class="${String(cur)===String(v)?"on":""}" data-act="${act}" data-k="${v}">${l}</button>`).join("")}</div>`;
   const hist = (S.exams||[]).slice(-10).reverse();
-  const h = n ? `<div class="card"><div class="small muted">출제 범위</div><div style="font-weight:600">외웠어요로 표시한 단어 전체 · ${n}단어</div>
-     <div class="small muted" style="margin-top:4px">Day 구분 없이 출제돼요. 영어→뜻, 뜻→영어, 빈칸 채우기가 무작위로 섞여요.</div></div>
+  const [f, t] = examRange(), n = quizPoolExam().length;
+  const opt = sel => DATA.map(c => `<option value="${c.ch}" ${c.ch===sel?"selected":""}>${esc(c.title)}</option>`).join("");
+  const h = `<div class="card set"><p class="label" style="margin:0">출제 범위</p>
+     <div class="row"><select id="exFrom" class="sel" data-chg="exRange">${opt(f)}</select><span class="muted">~</span><select id="exTo" class="sel" data-chg="exRange">${opt(t)}</select></div>
+     <div class="small muted">${n}단어에서 Day 구분 없이 출제돼요. 영어→뜻, 뜻→영어, 빈칸 채우기가 무작위로 섞여요.</div></div>
    <div class="card set"><p class="label" style="margin:0">문제 수</p>${seg("setEn", S.settings.en, [[20,"20"],[30,"30"],[50,"50"],[0,"전체"]])}</div>
    <div class="card set"><p class="label" style="margin:0">빈칸 문제 방식</p>${seg("setFill", S.settings.fill, [["type","직접 입력"],["mc","객관식"]])}</div>
    <button class="btn primary block" data-act="examStart">시험 시작</button>
-   ${hist.length?`<div class="card"><p class="label">최근 시험 기록</p><div class="list">${hist.map(e=>`<div class="row" style="padding:10px 2px;border-bottom:1px solid var(--line)"><span class="grow small muted">${esc(e.d)}</span><b>${e.ok} / ${e.n}</b><span class="pill ${e.ok/e.n>=0.8?"good":(e.ok/e.n>=0.6?"":"bad")}" style="min-width:48px;text-align:center">${Math.round(e.ok/e.n*100)}%</span></div>`).join("")}</div></div>`:""}`
-   : `<div class="card empty"><b>아직 외운 단어가 없어요</b><div class="small muted" style="margin-top:4px">단어 카드에서 "외웠어요로 표시"를 누른 단어들로 시험을 볼 수 있어요.</div></div>`;
+   ${hist.length?`<div class="card"><p class="label">최근 시험 기록</p><div class="list">${hist.map(e=>`<div class="row" style="padding:10px 2px;border-bottom:1px solid var(--line)"><span class="grow small muted">${esc(e.d)}${e.r?` · ${esc(e.r)}`:""}</span><b>${e.ok} / ${e.n}</b><span class="pill ${e.ok/e.n>=0.8?"good":(e.ok/e.n>=0.6?"":"bad")}" style="min-width:48px;text-align:center">${Math.round(e.ok/e.n*100)}%</span></div>`).join("")}</div></div>`:""}`;
   return shell("시험", h);
 }
+function examRange(){
+  const first = DATA[0].ch, last = DATA[DATA.length-1].ch;
+  let f = S.settings.exFrom || first, t = S.settings.exTo || last;
+  if (f > t) [f, t] = [t, f];
+  return [f, t];
+}
+function quizPoolExam(){ const [f, t] = examRange(); return DATA.filter(c => c.ch >= f && c.ch <= t).flatMap(c => c.words); }
 
 function wrongView(){
   const ws = Object.keys(S.wrong).filter(id=>WORDS[id]).sort((a,b)=>S.wrong[b]-S.wrong[a]);
@@ -653,7 +707,9 @@ function gsPanel(){
   if (GS.url && !V.gsEdit) return `<div class="card set"><p class="label" style="margin:0">구글 드라이브 자동 백업</p>
     <div><span class="pill ${st[0]}">${st[1]}</span> <span class="small muted">${esc(st[2])}</span></div>
     <div class="small muted">기록이 바뀔 때마다 내 구글 드라이브의 'TOEFL 단어장 백업' 폴더에 자동 저장돼요. 날짜별 사본도 30일치 남아요. 다른 폰에서도 같은 주소를 연결하면 기록이 이어져요.</div>
-    <div class="btns"><button class="btn" data-act="gsNow">지금 동기화</button><button class="btn" data-act="gsEdit">연결 설정</button></div></div>`;
+    <div class="btns"><button class="btn" data-act="gsNow">지금 동기화</button><button class="btn" data-act="gsEdit">연결 설정</button></div>
+    <div class="small muted">폰을 바꾸거나 앱을 지웠다 다시 깔 때는 아래 <b>복구용 주소</b>만 연결 칸에 붙여 넣으면 다시 이어져요. 복사해서 메모나 카톡 '나와의 채팅'에 보관해 두세요.</div>
+    <button class="btn" data-act="gsCopyRecover">복구용 주소 복사</button></div>`;
   if (!GS.key){ GS.key = gsNewKey(); gsSave(); }
   return `<div class="card set"><p class="label" style="margin:0">구글 드라이브 자동 백업 연결</p>
     <div class="small">PC에서 한 번만 하면 돼요.</div>
@@ -667,14 +723,14 @@ function gsPanel(){
     </ol>
     <button class="btn" data-act="gsCopy">코드 복사</button>
     ${V.gsShow ? `<textarea id="gscode" class="ans" style="font-size:11px;height:120px" readonly>${esc(gsScript())}</textarea>` : ""}
-    <input id="gsurl" class="ans" style="font-size:14px" placeholder="웹 앱 URL 붙여 넣기" value="${esc(GS.url)}">
+    <input id="gsurl" class="ans" style="font-size:14px" placeholder="웹 앱 URL 또는 복구용 주소 붙여 넣기" value="${esc(GS.url)}">
     <div class="btns">${GS.url?`<button class="btn" data-act="gsOff">연결 끊기</button>`:""}<button class="btn primary" data-act="gsConnect">연결하기</button></div>
     <div class="small muted">코드에 들어 있는 키는 이 앱 전용 비밀번호예요. 다른 사람에게 공유하지 마세요.</div></div>`;
 }
 function settingsView(){
   const st = S.settings, ts = ttsStatus();
   const seg = (act, cur, opts) => `<div class="seg">${opts.map(([v,l])=>`<button class="${String(cur)===String(v)?"on":""}" data-act="${act}" data-k="${v}">${l}</button>`).join("")}</div>`;
-  const cs = {cloud:["good","계정에 저장 중","체크·진도·오답이 Claude 계정에 저장돼요. 폰을 바꾸거나 다른 브라우저로 열어도 그대로예요."], wait:["","확인 중","저장 공간을 연결하고 있어요."], offline:["bad","연결 안 됨","지금은 계정 저장소에 연결되지 않아 이 기기에만 저장돼요. 인터넷 연결 후 다시 열어주세요."], error:["bad","저장 실패","계정에 저장하지 못했어요. 앱을 다시 열어주세요."], local: STANDALONE ? ["good","이 폰에 저장 중","기록은 이 폰의 크롬에 저장돼요. 크롬의 인터넷 사용 기록을 지우면 함께 지워질 수 있으니, 가끔 아래 '기록 내보내기'로 백업해 두세요."] : ["bad","이 기기에만 저장","Claude에 로그인한 상태로 열면 계정에 저장돼요. 지금은 브라우저 기록이 지워지면 함께 사라질 수 있어요."]}[CLOUD.status] || ["","",""];
+  const cs = {cloud:["good","계정에 저장 중","어려운 단어·오답·시험 기록이 Claude 계정에 저장돼요. 폰을 바꾸거나 다른 브라우저로 열어도 그대로예요."], wait:["","확인 중","저장 공간을 연결하고 있어요."], offline:["bad","연결 안 됨","지금은 계정 저장소에 연결되지 않아 이 기기에만 저장돼요. 인터넷 연결 후 다시 열어주세요."], error:["bad","저장 실패","계정에 저장하지 못했어요. 앱을 다시 열어주세요."], local: STANDALONE ? ["good","이 폰에 저장 중","기록은 이 폰의 크롬에 저장돼요. 크롬의 인터넷 사용 기록을 지우면 함께 지워질 수 있으니, 가끔 아래 '기록 내보내기'로 백업해 두세요."] : ["bad","이 기기에만 저장","Claude에 로그인한 상태로 열면 계정에 저장돼요. 지금은 브라우저 기록이 지워지면 함께 사라질 수 있어요."]}[CLOUD.status] || ["","",""];
   const h = `<div class="card set"><p class="label" style="margin:0">학습 기록 저장</p><div><span class="pill ${cs[0]}">${cs[1]}</span></div><div class="small muted">${cs[2]}</div></div>
   ${STANDALONE ? gsPanel() : ""}
   <div class="card set"><p class="label" style="margin:0">음성 점검</p>
@@ -684,9 +740,9 @@ function settingsView(){
   <div class="card set"><p class="label" style="margin:0">발음</p>${seg("setAccent", st.accent, [["en-US","미국식"],["en-GB","영국식"]])}</div>
   <div class="card set"><p class="label" style="margin:0">읽기 속도</p>${seg("setRate", st.rate, [[0.7,"느리게"],[0.9,"보통"],[1.05,"빠르게"]])}</div>
   <div class="card set"><p class="label" style="margin:0">자동 읽기</p><div class="small muted">단어 카드를 열거나 퀴즈 답을 확인하면 바로 읽어줘요.</div>${seg("setAuto", st.auto, [[true,"켜기"],[false,"끄기"]])}</div>
-  <div class="card set"><p class="label" style="margin:0">학습 기록</p><div class="small muted">외운 단어, 어려운 단어 체크, 오답노트, 시험 기록을 모두 지워요.</div><button class="btn" data-act="reset">${V.confirmReset?"한 번 더 누르면 초기화돼요":"학습 기록 초기화"}</button></div>
+  <div class="card set"><p class="label" style="margin:0">학습 기록</p><div class="small muted">어려운 단어 체크, 오답노트, 시험 기록을 모두 지워요.</div><button class="btn" data-act="reset">${V.confirmReset?"한 번 더 누르면 초기화돼요":"학습 기록 초기화"}</button></div>
   <div class="card set"><p class="label" style="margin:0">기록 옮기기 · 백업</p>
-   <div class="small muted">외움 표시, 어려운 단어, 오답, 시험 기록을 다른 곳으로 옮길 수 있어요. '내보내기'로 코드를 복사한 뒤, 옮겨 갈 앱의 '가져오기' 칸에 붙여 넣으세요.</div>
+   <div class="small muted">어려운 단어, 오답, 시험 기록을 다른 곳으로 옮길 수 있어요. '내보내기'로 코드를 복사한 뒤, 옮겨 갈 앱의 '가져오기' 칸에 붙여 넣으세요.</div>
    <div class="btns"><button class="btn" data-act="exportData">기록 내보내기</button>${STANDALONE?`<button class="btn" data-act="exportFile">파일로 저장</button>`:""}</div>
    ${V.exportCode?`<textarea id="excode" class="ans" style="font-size:12px;height:90px" readonly>${esc(V.exportCode)}</textarea>`:""}
    <textarea id="imcode" class="ans" style="font-size:12px;height:70px" placeholder="여기에 가져올 코드를 붙여 넣으세요"></textarea>
@@ -701,6 +757,7 @@ function render(){
   app.innerHTML = m();
   const f = document.getElementById("qform");
   if (f) f.addEventListener("submit", e => { e.preventDefault(); const v = document.getElementById("ans").value; if (!v.trim()) return; answer(v); });
+  if (V.view === "card") requestAnimationFrame(fitCard);
 }
 
 /* ===== 동작 ===== */
@@ -709,12 +766,13 @@ const ACT = {
   tab: d => { V.tab = d.k; V.confirmReset=false; V.qsrc=null; go(d.k); },
   home: () => { V.tab="home"; go("home"); },
   openCh: d => { V.qsrc=null; go("chapter", {ch: d.ch ? +d.ch : V.ch}); },
-  openCard: d => { PAD.clear(); go("card", {i:+d.i, showKo:false}); if (S.settings.auto) speak(chap(V.ch).words[V.i].w); },
+  openCard: d => { PAD.clear(); go("card", {i:+d.i, showKo:false, cexp:false}); if (S.settings.auto) speak(chap(V.ch).words[V.i].w); },
   openWord: d => { const x = WORDS[d.w]; V.tab="home"; go("card", {ch:x.ch, i:chap(x.ch).words.indexOf(x)}); },
   prev: () => { if (V.i>0) ACT.openCard({i:V.i-1}); },
   next: () => { if (V.i<chap(V.ch).words.length-1) ACT.openCard({i:V.i+1}); },
   blurW: () => { S.blurW = !S.blurW; save(); render(); },
   blurK: () => { S.blurK = !S.blurK; save(); render(); },
+  cmore: () => { V.cexp = !V.cexp; render(); },
   toggleKo: () => { V.showKo = !V.showKo; render(); },
   blurS: () => { S.blurS = !S.blurS; save(); render(); },
   known: () => { const id = chap(V.ch).words[V.i].id; if (S.known[id]) delete S.known[id]; else S.known[id]=1; save(); render(); },
@@ -729,7 +787,7 @@ const ACT = {
   choose: d => answer(d.k),
   giveup: () => answer(""),
   override: () => { const Q=V.quiz, id=Q.qs[Q.n].x.id; Q.results[Q.n].ok=true; if(S.wrong[id]){S.wrong[id]--; if(S.wrong[id]<=0) delete S.wrong[id];} save(); V.ans.ok=true; render(); },
-  nextQ: () => { const Q=V.quiz; if (Q.n < Q.qs.length-1){ Q.n++; V.ans=null; PAD.clear(); render(); focusInput(); } else { if (V.qsrc==="exam"){ const r=Q.results, t=new Date(); S.exams=(S.exams||[]).concat([{d:`${t.getMonth()+1}/${t.getDate()} ${String(t.getHours()).padStart(2,"0")}:${String(t.getMinutes()).padStart(2,"0")}`, ok:r.filter(x=>x.ok).length, n:r.length}]).slice(-30); save(); } go("result"); } },
+  nextQ: () => { const Q=V.quiz; if (Q.n < Q.qs.length-1){ Q.n++; V.ans=null; PAD.clear(); render(); focusInput(); } else { if (V.qsrc==="exam"){ const r=Q.results, t=new Date(); const [ef, et] = examRange(); S.exams=(S.exams||[]).concat([{r: ef===et ? `Day ${ef}` : `Day ${ef}~${et}`, d:`${t.getMonth()+1}/${t.getDate()} ${String(t.getHours()).padStart(2,"0")}:${String(t.getMinutes()).padStart(2,"0")}`, ok:r.filter(x=>x.ok).length, n:r.length}]).slice(-30); save(); } go("result"); } },
   quitQuiz: () => { V.qsrc==="wrong" ? ACT.wrongTab() : V.qsrc==="exam" ? ACT.examTab() : go("quizSetup"); },
   playerOpen: () => { stopPlay(); V.plMode="day"; V.plList=chap(V.ch).words; PL.i = 0; PL.r = 0; PL.part = ""; go("player"); playLoop(); },
   hardPlay: () => { const l = hardList(); if (!l.length) return; stopPlay(); V.plMode="hard"; V.plList=l; PL.i = 0; PL.r = 0; PL.part = ""; V.tab="home"; go("player"); playLoop(); },
@@ -753,7 +811,9 @@ const ACT = {
   setAuto: d => { S.settings.auto = d.k==="true"; save(); render(); },
   gsCopy: async () => { V.gsShow = true; render(); try { await navigator.clipboard.writeText(gsScript()); toast("코드를 복사했어요. Apps Script에 붙여 넣으세요"); } catch(e){ toast("아래 칸의 코드를 전체 선택해 복사해 주세요"); } },
   gsConnect: async () => {
-    const u = (document.getElementById("gsurl")?.value || "").trim();
+    let u = (document.getElementById("gsurl")?.value || "").trim();
+    const km = u.match(/[?&]key=([0-9a-f]+)/i);
+    if (km){ GS.key = km[1]; u = u.replace(/[?&]key=[0-9a-f]+/i, ""); }
     if (!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec/.test(u)){ toast("주소는 https://script.google.com/macros/s/…/exec 형태여야 해요"); return; }
     GS.url = u; GS.status = "wait"; gsSave(); V.gsEdit = false; render(); toast("연결하는 중이에요…");
     await gsyncInit();
@@ -761,6 +821,7 @@ const ACT = {
     render();
   },
   gsNow: async () => { GS.status = "wait"; render(); await gsyncInit(); if (GS.status === "ok"){ gsyncPush(); toast("동기화했어요"); } render(); },
+  gsCopyRecover: async () => { const r = GS.url + "?key=" + GS.key; try { await navigator.clipboard.writeText(r); toast("복구용 주소를 복사했어요. 안전한 곳에 보관하세요"); } catch(e){ prompt; toast(r); } },
   gsEdit: () => { V.gsEdit = true; render(); },
   gsOff: () => { GS.url = ""; GS.status = "off"; gsSave(); V.gsEdit = false; render(); toast("자동 백업 연결을 끊었어요"); },
   exportData: async () => {
@@ -857,10 +918,11 @@ function applyImport(text){
     S.settings = Object.assign({accent:"en-US", rate:0.9, auto:true, fill:"type", qn:20, en:30, prate:0.4, prep:3, pko:true, pet:true, pex:"both"}, S.settings||{});
     ["known","wrong","hard"].forEach(k => { if (!S[k] || typeof S[k] !== "object") S[k] = {}; });
     migrateS(); save(); V.exportCode = null; render();
-    toast(`가져왔어요: 외운 단어 ${Object.keys(S.known).length}개, 어려운 단어 ${Object.keys(S.hard).length}개`);
+    toast(`가져왔어요: 어려운 단어 ${Object.keys(S.hard).length}개, 오답 ${Object.keys(S.wrong).length}개`);
   } catch(e){ toast("코드를 읽지 못했어요. 처음부터 끝까지 빠짐없이 붙여 넣었는지 확인해 주세요"); }
 }
 document.addEventListener("change", e => {
+  if (e.target && (e.target.id === "exFrom" || e.target.id === "exTo")){ S.settings[e.target.id] = +e.target.value; save(); render(); return; }
   if (e.target && e.target.id === "imfile" && e.target.files[0]){ e.target.files[0].text().then(applyImport); }
 });
 const BYW = {};
@@ -881,6 +943,9 @@ function init(data){
   DATA = data;
   DATA.forEach(c => c.words.forEach(x => { x.ch = c.ch; x.id = c.ch + ":" + x.w; WORDS[x.id] = x; BYW[x.w] = x.id; }));
   if (migrateS()) saveLocal();
+  fitHead();
+  try { document.fonts && document.fonts.load("700 40px Literata").then(() => { HEAD_TOKEN = ""; fitHead(); }); } catch(e){}
+  window.addEventListener("resize", () => { fitHead(); if (V.view === "card") fitCard(); });
   go("home");
   cloudInit();
   if (STANDALONE) gsyncInit();
